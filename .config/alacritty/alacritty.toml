@@ -1,11 +1,10 @@
+[general]
 # Color
 import = ["~/.config/alacritty/dracula.toml"]
 
 # Window
 [window]
-dimensions = { columns = 104, lines = 30 }
-opacity = 0.8
-decorations = "None"
+dimensions = { columns = 120, lines = 30 }
 padding = { x = 10, y = 10 }
 
 # Font
@@ -15,4 +14,4 @@ size = 12.0
 
 # Keyboard
 [keyboard]
-bindings = [{ key = "W", mods = "Control", mode = "~Search", action = "Quit" }]
+bindings = [{ key = "W", mods = "Control|Shift", mode = "~Search", action = "Quit" }]

@@ -8,7 +8,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -81,15 +81,20 @@ setopt hist_save_no_dups
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-tab)
 
 # Keybindings
+bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
+zstyle ':completion:*' menu no
+zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -114,22 +119,79 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ls='ls --color'
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/onlyzabao/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/onlyzabao/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/onlyzabao/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/onlyzabao/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# Lazy load conda
+# Add any commands which depend on conda here
+lazy_conda_aliases=('python' 'conda')
+
+load_conda() {
+  # Unalias the commands that will be lazily loaded
+  for lazy_conda_alias in "${lazy_conda_aliases[@]}"
+  do
+    unalias $lazy_conda_alias 2>/dev/null
+  done
+
+  # >>> conda initialize >>>
+  __conda_setup="$('/home/baonguyen7/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+  if [ $? -eq 0 ]; then
+      eval "$__conda_setup"
+  else
+      if [ -f "/home/baonguyen7/miniconda3/etc/profile.d/conda.sh" ]; then
+          . "/home/baonguyen7/miniconda3/etc/profile.d/conda.sh"
+      else
+          export PATH="/home/baonguyen7/miniconda3/bin:$PATH"
+      fi
+  fi
+  unset __conda_setup
+  # <<< conda initialize <<<
+
+  # Remove this function after loading conda
+  unfunction load_conda
+}
+
+# Create aliases that will load conda when they are used
+for lazy_conda_alias in "${lazy_conda_aliases[@]}"
+do
+  alias $lazy_conda_alias="load_conda && $lazy_conda_alias"
+done
+
+# Lazy load nvm
+# Add any commands which depend on nvm here
+lazy_nvm_aliases=('node' 'nvm' 'npm')
+
+load_nvm() {
+  # Unalias the commands that will be lazily loaded
+  for lazy_nvm_alias in "${lazy_nvm_aliases[@]}"
+  do
+    unalias $lazy_nvm_alias 2>/dev/null
+  done
+  
+  export NVM_DIR="$HOME/.nvm"
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+  # Remove this function after loading nvm
+  unfunction load_nvm
+}
+
+# Create aliases that will load nvm when they are used
+for lazy_nvm_alias in "${lazy_nvm_aliases[@]}"
+do
+  alias $lazy_nvm_alias="load_nvm && $lazy_nvm_alias"
+done
 
 # Starship
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
+
+# Poetry
+export PATH="/home/baonguyen7/.local/bin:$PATH"
+
+# Fzf
+source /usr/share/doc/fzf/examples/key-bindings.zsh
+source /usr/share/doc/fzf/examples/completion.zsh
+
+# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
