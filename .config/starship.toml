@@ -1,0 +1,37 @@
+format = """
+$directory\
+$git_branch\
+$git_commit\
+$git_status\
+$conda\
+$cmd_duration
+$hostname\
+[](fg:bright-black bg:blue)\
+$username\
+[ ](fg:blue bg:background)\
+"""
+
+add_newline = false
+
+[username]
+show_always = true
+style_user = 'fg:black bg:blue'
+style_root = 'fg:black bg:blue'
+format = '[ $user ]($style)'
+
+[hostname]
+ssh_only = false
+style = 'bg:bright-black'
+format = '[ $ssh_symbol$hostname ]($style)'
+
+[directory]
+style = 'bold fg:bright-black'
+format = '[\[$path\] ]($style)'
+truncation_symbol = '…/'
+
+[git_status]
+disabled = false
+
+[git_commit]
+format = 'on [\($hash$tag\)]($style) '
+style = 'bold purple'

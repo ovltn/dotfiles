@@ -1,0 +1,13 @@
+[window]
+dimensions = { columns = 120, lines = 25 }
+padding = { x = 10, y = 10 }
+
+[font]
+normal = { family = "JetBrainsMonoNerdFont", style = "Regular" }
+size = 13.0
+
+[keyboard]
+bindings = [{ key = "W", mods = "Control|Shift", mode = "~Search", action = "Quit" }]
+
+[general]
+import = ["~/.config/alacritty/dracula.toml"]
