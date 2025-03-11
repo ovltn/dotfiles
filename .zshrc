@@ -81,7 +81,7 @@ setopt hist_save_no_dups
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting fzf-tab)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl nvm fzf-tab)
 fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 
 # Keybindings
@@ -89,6 +89,7 @@ bindkey -e
 bindkey '^p' history-search-backward
 bindkey '^n' history-search-forward
 
+zstyle ':omz:plugins:nvm' lazy yes
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
@@ -156,31 +157,6 @@ load_conda() {
 for lazy_conda_alias in "${lazy_conda_aliases[@]}"
 do
   alias $lazy_conda_alias="load_conda && $lazy_conda_alias"
-done
-
-# Lazy load nvm
-# Add any commands which depend on nvm here
-lazy_nvm_aliases=('node' 'nvm' 'npm')
-
-load_nvm() {
-  # Unalias the commands that will be lazily loaded
-  for lazy_nvm_alias in "${lazy_nvm_aliases[@]}"
-  do
-    unalias $lazy_nvm_alias 2>/dev/null
-  done
-  
-  export NVM_DIR="$HOME/.nvm"
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-  # Remove this function after loading nvm
-  unfunction load_nvm
-}
-
-# Create aliases that will load nvm when they are used
-for lazy_nvm_alias in "${lazy_nvm_aliases[@]}"
-do
-  alias $lazy_nvm_alias="load_nvm && $lazy_nvm_alias"
 done
 
 # Starship
