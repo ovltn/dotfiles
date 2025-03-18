@@ -10,4 +10,4 @@ size = 13.0
 bindings = [{ key = "W", mods = "Control|Shift", mode = "~Search", action = "Quit" }]
 
 [general]
-import = ["~/.config/alacritty/dracula.toml"]
+import = ["~/.config/alacritty/tokyonight.toml"]
