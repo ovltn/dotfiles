@@ -25,7 +25,7 @@ style = 'bg:bright-black'
 format = '[ $ssh_symbol$hostname ]($style)'
 
 [directory]
-style = 'bold fg:bright-black'
+style = 'bold fg:normal-white'
 format = '[\[$path\] ]($style)'
 truncation_symbol = '…/'
 
