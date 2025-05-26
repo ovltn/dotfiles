@@ -163,9 +163,6 @@ done
 eval "$(starship init zsh)"
 export STARSHIP_CONFIG=~/.config/starship/starship.toml
 
-# Poetry
-export PATH="/home/baonguyen7/.local/bin:$PATH"
-
 # Fzf
 source /usr/share/doc/fzf/examples/key-bindings.zsh
 source /usr/share/doc/fzf/examples/completion.zsh
