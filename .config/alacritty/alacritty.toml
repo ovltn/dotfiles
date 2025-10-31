@@ -1,0 +1,11 @@
+[window]
+dimensions = { columns = 120, lines = 25 }
+padding = { x = 10, y = 10 }
+option_as_alt = "Both"
+
+[font]
+normal = { family = "JetBrainsMono Nerd Font", style = "Regular" }
+size = 13.0
+
+[general]
+import = ["~/.config/alacritty/tokyonight.toml"]
